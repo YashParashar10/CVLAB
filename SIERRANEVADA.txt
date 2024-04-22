@@ -1,0 +1,429 @@
+$  READ FROM IMAGE 
+ import cv2
+
+# Read the image
+img = cv2.imread("img1.jpg")
+
+# Display the image
+cv2.imshow("yash", img)
+
+# Wait for a specified milliseconds (here, 10000 milliseconds or 10 seconds)
+cv2.waitKey(10000)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+
+$ WRITE INTO IMAGE 
+
+import cv2
+
+# Read the image
+img = cv2.imread("img1.jpg")
+
+# Define the text and font parameters
+text = "Hello, OpenCV!"
+font = cv2.FONT_HERSHEY_SIMPLEX
+org = (50, 50)  # Bottom-left corner of the text string
+fontScale = 1   # Font scale (size)
+color = (255, 0, 0)  # BGR color (Blue, Green, Red)
+thickness = 2   # Thickness of the text
+
+# Write text onto the image
+img_with_text = cv2.putText(img, text, org, font, fontScale, color, thickness)
+
+# Display the image with text
+cv2.imshow("Image with Text", img_with_text)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+
+$ DISPLAY RGB COMPONENT
+
+import cv2
+
+# Read the image
+img = cv2.imread("img1.jpg")
+
+# Get the dimensions (resolution) of the image
+height, width, channels = img.shape
+print("Image Resolution: {}x{}".format(width, height))
+
+# Display RGB component values for each pixel
+for y in range(height):
+    for x in range(width):
+        # Get RGB values for the pixel at (x, y)
+        blue = img[y, x, 0]
+        green = img[y, x, 1]
+        red = img[y, x, 2]
+        
+        print("Pixel at ({}, {}): R={}, G={}, B={}".format(x, y, red, green, blue))
+
+# Display the image
+cv2.imshow("Image", img)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+
+$ CONVERT COLORED IMAGE TO GRAYSCALE
+
+# exp3
+import cv2
+
+# Read the colored image
+img_color = cv2.imread("img1.jpg")
+
+# Check if the image is loaded successfully
+if img_color is not None:
+    # Convert the colored image to grayscale
+    img_gray = cv2.cvtColor(img_color, cv2.COLOR_BGR2GRAY)
+
+    # Display the colored image
+    cv2.imshow("Colored Image", img_color)
+
+    # Display the grayscale image
+    cv2.imshow("Grayscale Image", img_gray)
+
+    # Wait for a key press
+    cv2.waitKey(0)
+
+    # Close all OpenCV windows
+    cv2.destroyAllWindows()
+else:
+    print("Error: Unable to load the image. Please check the file path.")
+
+
+$ BINARY THRESHOLD 
+
+import cv2
+
+# Read the colored image
+img_color = cv2.imread("img1.jpg")
+
+# Convert the colored image to grayscale
+img_gray = cv2.cvtColor(img_color, cv2.COLOR_BGR2GRAY)
+
+# Apply a binary threshold to create a binary image
+_, img_binary = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY)
+
+# Display the colored image
+cv2.imshow("Colored Image", img_color)
+
+# Display the binary image
+cv2.imshow("Binary Image", img_binary)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+$ BRIGHTNESS FACTOR EXP4
+
+import cv2
+
+# Read the image
+img = cv2.imread("img1.jpg")
+
+# Define a brightness factor (positive value for increase, negative for decrease)
+brightness_factor = 50
+
+# Add the brightness factor to each pixel intensity
+brightened_img = cv2.add(img, brightness_factor)
+
+# Display the original and brightened images
+cv2.imshow("Original Image", img)
+cv2.imshow("Brightened Image", brightened_img)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+$ CONTRAST ADJUSTMENT
+
+import cv2
+
+# Read the image
+img = cv2.imread("img1.jpg")
+
+# Define the contrast factor (positive value for increase, negative for decrease)
+contrast_factor = 1.5
+
+# Apply contrast adjustment
+adjusted_img = cv2.convertScaleAbs(img, alpha=contrast_factor, beta=0)
+
+# Apply Gaussian blur
+blurred_img = cv2.GaussianBlur(adjusted_img, (5, 5), 0)
+
+# Display the original, adjusted (contrast), and blurred images
+cv2.imshow("Original Image", img)
+cv2.imshow("Adjusted Image (Contrast)", adjusted_img)
+cv2.imshow("Blurred Image", blurred_img)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+
+$ EXP 5 LINE , CIRCLE , RECTANGLE , POLYLINES , TEXT , ELLIPSE
+
+# exp 5
+import cv2
+import numpy as np
+
+# Read the image
+img = cv2.imread("img1.jpg")
+
+# Draw a circle
+cv2.circle(img, (100, 100), 50, (0, 255, 0), 2)  # center, radius, color, thickness
+
+# Draw a line
+cv2.line(img, (200, 200), (300, 300), (0, 0, 255), 2)  # start point, end point, color, thickness
+
+# Draw a rectangle
+cv2.rectangle(img, (350, 50), (450, 150), (255, 0, 0), 2)  # top-left corner, bottom-right corner, color, thickness
+
+# Draw an ellipse
+cv2.ellipse(img, (200, 400), (100, 50), 0, 0, 360, (255, 255, 0), 2)  # center, axes lengths, angle, startAngle, endAngle, color, thickness
+
+# Define the points for polylines
+pts = np.array([[(500, 100), (600, 200), (700, 100), (600, 50)]], dtype=np.int32)
+
+# Draw polylines
+cv2.polylines(img, [pts], isClosed=True, color=(0, 255, 255), thickness=2)  # isClosed, color, thickness
+
+# Define the points for convex polygon
+pts_convex = np.array([[(550, 300), (650, 400), (750, 300), (650, 250)]], dtype=np.int32)
+
+# Draw convex polygon
+cv2.polylines(img, [pts_convex], isClosed=True, color=(255, 0, 255), thickness=2)  # isClosed, color, thickness
+
+# Add text
+font = cv2.FONT_HERSHEY_SIMPLEX
+cv2.putText(img, 'OpenCV', (50, 500), font, 1, (255, 255, 255), 2, cv2.LINE_AA)  # text, position, font, font scale, color, thickness, line type
+
+# Display the image with drawn shapes, polylines, convex polygon, and text
+cv2.imshow("Image with Shapes, Polylines, Convex Polygon, and Text", img)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+$ BLURR AND FILTER
+
+#exp6 blurr and filter op
+import cv2
+
+# Read the image
+img = cv2.imread("img1.jpg")
+
+# Apply Gaussian blur
+blurred_img = cv2.GaussianBlur(img, (5, 5), 0)  # kernel size (5x5) and standard deviation 0
+
+# Display the original and blurred images
+cv2.imshow("Original Image", img)
+cv2.imshow("Blurred Image", blurred_img)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+
+
+$ EXP6 BLURR
+
+import cv2
+import numpy as np
+
+# Read the image
+img = cv2.imread("img1.jpg")
+
+# Apply Gaussian blur
+blurred_img = cv2.GaussianBlur(img, (5, 5), 0)  # kernel size (5x5) and standard deviation 0
+
+# Apply median blur
+median_blurred_img = cv2.medianBlur(img, 5)  # kernel size 5
+
+# Define a custom kernel for sharpening
+kernel_sharpening = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]])
+
+# Apply custom kernel-based filter for sharpening
+sharpened_img = cv2.filter2D(img, -1, kernel_sharpening)
+
+# Display the original, blurred, median-blurred, and sharpened images
+cv2.imshow("Original Image", img)
+cv2.imshow("Gaussian Blurred Image", blurred_img)
+cv2.imshow("Median Blurred Image", median_blurred_img)
+cv2.imshow("Sharpened Image", sharpened_img)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+
+# EXP 7 MORPHOLOGICAL OPERATIONS
+
+#exp7
+import cv2
+import numpy as np
+
+# Read the image in grayscale
+img = cv2.imread("img1.jpg", 0)
+
+# Define a kernel for morphological operations
+kernel = np.ones((5, 5), np.uint8)
+
+# Perform erosion
+eroded_img = cv2.erode(img, kernel, iterations=1)
+
+# Perform dilation
+dilated_img = cv2.dilate(img, kernel, iterations=1)
+
+# Perform opening (erosion followed by dilation)
+opening_img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+
+# Perform closing (dilation followed by erosion)
+closing_img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+
+# Display the original, eroded, dilated, opened, and closed images
+cv2.imshow("Original Image", img)
+cv2.imshow("Eroded Image", eroded_img)
+cv2.imshow("Dilated Image", dilated_img)
+cv2.imshow("Opened Image", opening_img)
+cv2.imshow("Closed Image", closing_img)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+
+
+#EXPR 8 TRANSLATION , ROTATION 
+
+
+import cv2
+import numpy as np
+
+# Read the image
+img = cv2.imread("img1.jpg")
+
+# Store the height and width of the image
+height, width = img.shape[:2]
+
+# Define the translation matrix
+translation_matrix = np.float32([[1, 0, 50], [0, 1, 50]])  # Translate by 50 pixels in both x and y directions
+
+# Apply translation
+translated_img = cv2.warpAffine(img, translation_matrix, (width, height))
+
+# Define the rotation matrix
+rotation_matrix = cv2.getRotationMatrix2D((width/2, height/2), 45, 1)  # Rotate by 45 degrees clockwise around the center
+
+# Apply rotation
+rotated_img = cv2.warpAffine(img, rotation_matrix, (width, height))
+
+# Define the scaling matrix
+scaling_matrix = np.float32([[0.5, 0, 0], [0, 0.5, 0]])  # Scale by 0.5 in both x and y directions
+
+# Apply scaling
+scaled_img = cv2.warpAffine(img, scaling_matrix, (width, height))
+
+# Display the original, translated, rotated, and scaled images
+cv2.imshow("Original Image", img)
+cv2.imshow("Translated Image", translated_img)
+cv2.imshow("Rotated Image", rotated_img)
+cv2.imshow("Scaled Image", scaled_img)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+
+
+
+# EDGE DETECTION EXP9
+
+
+import cv2
+
+# Read the image
+img = cv2.imread("img1.jpg", cv2.IMREAD_GRAYSCALE)
+
+# Apply Canny edge detection
+edges = cv2.Canny(img, 100, 200)  # Adjust the threshold values according to your image and requirements
+
+# Display the original and edge-detected images
+cv2.imshow("Original Image", img)
+cv2.imshow("Edges", edges)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+
+
+$ DETECT FACES EXP10
+
+#exp10
+import cv2
+
+# Load the pre-trained face detection classifier
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+
+# Read the image
+img = cv2.imread("img2.png")
+
+# Convert the image to grayscale
+gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Detect faces in the grayscale image
+faces = face_cascade.detectMultiScale(gray_img, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+
+# Draw rectangles around the detected faces
+for (x, y, w, h) in faces:
+    cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+# Display the image with detected faces
+cv2.imshow("Faces Detected", img)
+
+# Wait for a key press
+cv2.waitKey(0)
+
+# Close all OpenCV windows
+cv2.destroyAllWindows()
+
+
+
+
+
+
+
+
+
+
+
+
